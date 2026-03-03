@@ -6,7 +6,8 @@ class AlertItem {
   final String imageUrl;
   final String name;
   final String age;
-  final bool isMissing;
+  final String height;
+  bool isMissing;
   final String description;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -16,6 +17,7 @@ class AlertItem {
     required this.imageUrl,
     required this.name,
     required this.age,
+    required this.height,
     this.isMissing = true,
     required this.description,
     required this.createdAt,
@@ -33,6 +35,7 @@ class AlertItem {
       'image_url': imageUrl,
       'name': name,
       'age': age,
+      'height': height,
       'isMissing': isMissing,
       'description': description,
       'createdAt': createdAt.toIso8601String(),
@@ -46,6 +49,7 @@ class AlertItem {
       imageUrl: json['image_url'] as String,
       name: json['name'] as String,
       age: json['age'] as String,
+      height: json['height'] as String,
       isMissing: json['isMissing'] ?? false,
       description: json['description'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),

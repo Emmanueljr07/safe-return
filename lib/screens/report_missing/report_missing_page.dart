@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:karu/screens/dashboard/dashboard.dart';
 import 'package:karu/screens/report_missing/widgets/photo_upload_section.dart';
 import 'package:karu/screens/report_missing/widgets/progress_section.dart';
 import 'package:karu/screens/report_missing/widgets/last_seen_location.dart';
@@ -31,6 +32,7 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
   void _publishAlert() {
     final name = _nameController.text;
     final age = _ageController.text;
+    final height = _heightController.text;
     final desc = _featuresController.text;
     try {
       // Show Loading indicator
@@ -43,7 +45,8 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
       // Check required fields
       if (_imagePath == null ||
           _nameController.text.isEmpty ||
-          _ageController.text.isEmpty) {
+          _ageController.text.isEmpty ||
+          _heightController.text.isEmpty) {
         Navigator.pop(context); // Dismiss loading indicator
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please fill in all required fields.')),
@@ -52,7 +55,7 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
       } else {
         ref
             .read(userAlertsProvider.notifier)
-            .publishAlert(_imagePath!, name, age, desc);
+            .publishAlert(_imagePath!, name, age, height, desc);
       }
 
       // Simulate network call delay
@@ -64,13 +67,19 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
           );
         }
       });
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardPage()),
+          // MaterialPageRoute(builder: (context) => const SmartShareCard()),
+        );
+      }
     } catch (e) {
       Navigator.pop(context); // Dismiss loading indicator
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Failed to publish alert.')));
     }
-    // debugPrint("Image Path: $_imagePath");
-    // debugPrint("Full name: ${_nameController.text}");
-    // debugPrint("Age: ${_ageController.text}");
-    // debugPrint("Desc: ${_featuresController.text}");
   }
 
   @override

@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:karu/models/alert_item.dart';
 
 class MissingPersonProfilePage extends StatefulWidget {
-  const MissingPersonProfilePage({super.key});
+  const MissingPersonProfilePage({super.key, required this.alert});
+
+  final AlertItem alert;
 
   @override
   State<MissingPersonProfilePage> createState() =>
@@ -9,7 +14,7 @@ class MissingPersonProfilePage extends StatefulWidget {
 }
 
 class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
-  bool _markAsFoundEnabled = false;
+  // bool _markAsFoundEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +97,11 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
         icon: const Icon(Icons.arrow_back, color: Colors.black),
         onPressed: () {
           // Handle back navigation
+          Navigator.pop(context);
         },
       ),
-      title: const Text(
-        'Case #4921-B',
+      title: Text(
+        'Case #${widget.alert.id.substring(0, 6).toUpperCase()}',
         style: TextStyle(
           color: Colors.black,
           fontSize: 18,
@@ -146,8 +152,8 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Leo Thompson',
+        Text(
+          widget.alert.name,
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
@@ -161,7 +167,7 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
             Icon(Icons.access_time, size: 18, color: Colors.grey.shade600),
             const SizedBox(width: 6),
             Text(
-              'Missing since Oct 12, 2023',
+              'Missing since ${widget.alert.createdAt.month} ${widget.alert.createdAt.day}, ${widget.alert.createdAt.year}',
               style: TextStyle(fontSize: 15, color: Colors.grey.shade600),
             ),
           ],
@@ -182,22 +188,13 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
             label: 'ORIGINAL',
             labelColor: Colors.brown.shade700,
             labelBackgroundColor: Colors.brown.shade200,
-            captionTop: 'Last Seen (2020)',
+            captionTop: 'Last Seen (${widget.alert.createdAt.year})',
             captionTopColor: Colors.black,
             borderColor: Colors.brown.shade200,
             // Placeholder for original photo
-            photoPlaceholder: Container(
-              decoration: BoxDecoration(
-                color: Colors.orange.shade100,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.person,
-                  size: photoWidth * 0.4,
-                  color: Colors.orange.shade300,
-                ),
-              ),
+            photoPlaceholder: Image.file(
+              File(widget.alert.imageUrl),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -351,13 +348,13 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
               Expanded(
                 child: _buildStatItem(
                   label: 'CURRENT AGE',
-                  value: '8 Years Old',
+                  value: '${widget.alert.age} Years Old',
                 ),
               ),
               Expanded(
                 child: _buildStatItem(
                   label: 'HEIGHT',
-                  value: '4\' 2" (127 cm)',
+                  value: '5\' 2" (${widget.alert.height}cm)',
                 ),
               ),
             ],
@@ -425,8 +422,8 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            _buildFeatureChip('Small scar on left eyebrow'),
-            _buildFeatureChip('Birthmark on neck'),
+            _buildFeatureChip(widget.alert.description),
+            _buildFeatureChip('E.g Birthmark on neck'),
           ],
         ),
       ],
@@ -602,13 +599,13 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
                 ),
               ),
               Switch(
-                value: _markAsFoundEnabled,
+                value: !widget.alert.isMissing,
                 onChanged: (value) {
                   setState(() {
-                    _markAsFoundEnabled = value;
+                    widget.alert.isMissing = !value;
                   });
                 },
-                activeColor: Colors.green,
+                activeThumbColor: Colors.green,
               ),
             ],
           ),

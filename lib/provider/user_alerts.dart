@@ -15,6 +15,7 @@ class UserAlertsNotifier extends StateNotifier<List<AlertItem>> {
     String imageUrl,
     String name,
     String age,
+    String height,
     String description,
   ) async {
     try {
@@ -28,6 +29,7 @@ class UserAlertsNotifier extends StateNotifier<List<AlertItem>> {
         imageUrl: copiedimageUrl.path,
         name: name,
         age: age,
+        height: height,
         description: description,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),

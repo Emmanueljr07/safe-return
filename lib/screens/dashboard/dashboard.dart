@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:karu/data/alerts_list.dart';
 import 'package:karu/models/alert_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:karu/screens/dashboard/widgets/alert_card.dart';
@@ -6,7 +7,7 @@ import 'package:karu/screens/dashboard/widgets/floating_action_btn.dart';
 import 'package:karu/screens/dashboard/widgets/map_section.dart';
 import 'package:karu/screens/dashboard/widgets/section_header.dart';
 import 'package:karu/screens/dashboard/widgets/navbar_item.dart';
-import 'package:karu/screens/report_missing_page.dart';
+import 'package:karu/screens/report_missing/report_missing_page.dart';
 import 'package:karu/provider/user_alerts.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
@@ -50,7 +51,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userAlerts = ref.watch(userAlertsProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final isSmallScreen = screenWidth < 360;
@@ -81,8 +81,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     children: [
                       buildSectionHeader(),
                       const SizedBox(height: 16),
-                      _alertsFutureBuilder(isSmallScreen),
+                      // _alertsFutureBuilder(isSmallScreen),
                       // ..._buildAlertCards(userAlerts, isSmallScreen),
+                      ..._buildAlertCards(alerts, isSmallScreen),
                     ],
                   ),
                 ),
@@ -163,26 +164,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     return alerts.map((alert) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 16),
-        child: buildAlertCard(alert, isSmallScreen),
+        child: buildAlertCard(alert, isSmallScreen, context),
       );
     }).toList();
   }
-
-  // Widget _buildAlertsList(List<AlertItem> alerts) {
-  //   return SizedBox(
-  //     height: 300,
-  //     child: ListView.builder(
-  //       itemCount: alerts.length,
-  //       itemBuilder: (context, index) {
-  //         final alert = alerts[index];
-  //         return Padding(
-  //           padding: const EdgeInsets.only(bottom: 16),
-  //           child: buildAlertCard(alert, false),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget _alertsFutureBuilder(bool isSmallScreen) {
     return FutureBuilder(
