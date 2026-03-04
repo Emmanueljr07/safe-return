@@ -103,12 +103,12 @@ class _SmartShareCardState extends State<SmartShareCard> {
 
   Future<void> _sharePosterToWhatsApp() async {
     // Check if WhatsApp is installed first
-    final isInstalled = await shareService.isWhatsAppInstalled();
+    // final isInstalled = await shareService.isWhatsAppInstalled();
 
-    if (!isInstalled && mounted) {
-      shareService.showWhatsAppNotInstalledDialog(context);
-      return;
-    }
+    // if (!isInstalled && mounted) {
+    //   shareService.showWhatsAppNotInstalledDialog(context);
+    //   return;
+    // }
 
     // Create a poster widget (your actual poster design)
     final posterWidget = SharePosterDesign(alert: widget.alert);

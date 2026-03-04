@@ -1,14 +1,40 @@
 // Data Models
 import 'package:uuid/uuid.dart';
 
+class AlertLocation {
+  final double latitude;
+  final double longitude;
+  final String address;
+
+  AlertLocation({
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {'latitude': latitude, 'longitude': longitude, 'address': address};
+  }
+
+  factory AlertLocation.fromJson(Map<String, dynamic> json) {
+    return AlertLocation(
+      latitude: json['latitude'] as double,
+      longitude: json['longitude'] as double,
+      address: json['address'] as String,
+    );
+  }
+}
+
 class AlertItem {
   final String id;
   final String imageUrl;
   final String name;
   final String age;
   final String height;
+  final String contact;
   bool isMissing;
   final String description;
+  final AlertLocation location;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -18,6 +44,8 @@ class AlertItem {
     required this.name,
     required this.age,
     required this.height,
+    required this.contact,
+    required this.location,
     this.isMissing = true,
     required this.description,
     required this.createdAt,
@@ -36,8 +64,10 @@ class AlertItem {
       'name': name,
       'age': age,
       'height': height,
+      'contact': contact,
       'isMissing': isMissing,
       'description': description,
+      'location': location.toJson(),
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
@@ -50,8 +80,12 @@ class AlertItem {
       name: json['name'] as String,
       age: json['age'] as String,
       height: json['height'] as String,
+      contact: json['contact'] as String,
       isMissing: json['isMissing'] ?? false,
       description: json['description'] as String,
+      location: AlertLocation.fromJson(
+        json['location'] as Map<String, dynamic>,
+      ),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );

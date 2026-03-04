@@ -18,13 +18,18 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
   final TextEditingController _featuresController = TextEditingController();
+  double? _lastSeenLatitude;
+  double? _lastSeenLongitude;
+  String? _lastSeenAddress;
 
   @override
   void dispose() {
     _nameController.dispose();
     _ageController.dispose();
     _heightController.dispose();
+    _contactController.dispose();
     _featuresController.dispose();
     super.dispose();
   }
@@ -33,7 +38,12 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
     final name = _nameController.text;
     final age = _ageController.text;
     final height = _heightController.text;
+    final contact = _contactController.text;
     final desc = _featuresController.text;
+    final lat = _lastSeenLatitude;
+    final lng = _lastSeenLongitude;
+    final address = _lastSeenAddress;
+
     try {
       // Show Loading indicator
       showDialog(
@@ -55,7 +65,17 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
       } else {
         ref
             .read(userAlertsProvider.notifier)
-            .publishAlert(_imagePath!, name, age, height, desc);
+            .publishAlert(
+              _imagePath!,
+              name,
+              age,
+              height,
+              contact,
+              desc,
+              lat!,
+              lng!,
+              address!,
+            );
       }
 
       // Simulate network call delay
@@ -168,6 +188,15 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
 
                     SizedBox(height: screenHeight * 0.025),
 
+                    // Contact Information field
+                    _buildTextField(
+                      label: 'Contact',
+                      controller: _contactController,
+                      placeholder: 'e.g. +237654123456',
+                    ),
+
+                    SizedBox(height: screenHeight * 0.025),
+
                     // Distinctive features field
                     _buildTextField(
                       label: 'Distinctive Clothing or Features',
@@ -180,7 +209,17 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
                     SizedBox(height: screenHeight * 0.025),
 
                     // Last Known Location
-                    lastSeenLocation(screenHeight),
+                    LastSeenLocation(
+                      screenHeight: screenHeight,
+                      onLocationPicked:
+                          (double lat, double lng, String address) {
+                            // Handle location picked
+                            _lastSeenLatitude = lat;
+                            _lastSeenLongitude = lng;
+                            _lastSeenAddress = address;
+                            setState(() {});
+                          },
+                    ),
 
                     SizedBox(height: screenHeight * 0.02),
                   ],
@@ -357,6 +396,7 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
               const SizedBox(height: 8),
               TextField(
                 controller: _heightController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: 'ft/cm',
                   hintStyle: TextStyle(

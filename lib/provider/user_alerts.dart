@@ -16,7 +16,11 @@ class UserAlertsNotifier extends StateNotifier<List<AlertItem>> {
     String name,
     String age,
     String height,
+    String contact,
     String description,
+    double latitude,
+    double longitude,
+    String address,
   ) async {
     try {
       final appDir = await syspaths.getApplicationDocumentsDirectory();
@@ -30,7 +34,13 @@ class UserAlertsNotifier extends StateNotifier<List<AlertItem>> {
         name: name,
         age: age,
         height: height,
+        contact: contact,
         description: description,
+        location: AlertLocation(
+          latitude: latitude,
+          longitude: longitude,
+          address: address,
+        ),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );

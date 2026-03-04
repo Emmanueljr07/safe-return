@@ -79,7 +79,9 @@ class WhatsAppShareService {
   /// Check if WhatsApp is installed
   Future<bool> isWhatsAppInstalled() async {
     try {
-      final Uri uri = Uri.parse('whatsapp://send?text=test');
+      final Uri uri = Uri.parse(
+        'https://wa.me/${237683681584}?text=${Uri.encodeComponent('message')}',
+      );
       return await canLaunchUrl(uri);
     } catch (e) {
       return false;

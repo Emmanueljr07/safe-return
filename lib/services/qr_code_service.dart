@@ -48,7 +48,10 @@ class QRCodeService {
       version: QrVersions.auto,
       size: size,
       backgroundColor: backgroundColor ?? Colors.white,
-      foregroundColor: foregroundColor ?? Colors.black,
+      eyeStyle: QrEyeStyle(
+        color: foregroundColor ?? Colors.black,
+        eyeShape: QrEyeShape.square,
+      ),
       gapless: true,
       errorStateBuilder: (context, error) {
         return Container(

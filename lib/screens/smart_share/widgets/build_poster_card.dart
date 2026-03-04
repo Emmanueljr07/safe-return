@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:karu/models/alert_item.dart';
+import 'package:karu/screens/smart_share/widgets/qr_code_section.dart';
 
 class BuildPosterCard extends StatelessWidget {
   const BuildPosterCard({super.key, required this.alert});
@@ -252,37 +253,8 @@ class BuildPosterCard extends StatelessWidget {
               ),
             ),
 
-            // QR Code Section
-            Column(
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey.shade300, width: 2),
-                  ),
-                  child: Icon(
-                    Icons.qr_code_2,
-                    size: 60,
-                    color: Colors.grey.shade800,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Scan for\nLive Status',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                    height: 1.3,
-                  ),
-                ),
-              ],
-            ),
+            // QR Code Display Screen (for showing QR on poster)
+            QRCodeSection(caseId: alert.id),
           ],
         ),
       ],

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:karu/models/alert_item.dart';
+import 'package:karu/screens/smart_share/widgets/qr_code_section.dart';
 
 class SharePosterDesign extends StatelessWidget {
   const SharePosterDesign({super.key, required this.alert});
@@ -12,9 +13,20 @@ class SharePosterDesign extends StatelessWidget {
     return Container(
       width: 400,
       height: 600,
-      color: Colors.blue,
+      color: Colors.white,
       padding: const EdgeInsets.all(20),
-      child: Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(30),
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
         child: Column(
           children: [
             // Missing Header Banner
@@ -33,7 +45,7 @@ class SharePosterDesign extends StatelessWidget {
                   'MISSING',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 26,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2,
                   ),
@@ -54,41 +66,9 @@ class SharePosterDesign extends StatelessWidget {
                   child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
                 ),
                 const SizedBox(width: 10),
-                // QR Code Section
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          width: 2,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.qr_code_2,
-                        size: 60,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
 
-                    const Text(
-                      'SCAN TO\nCONTACT FAMILY',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                        height: 1.3,
-                      ),
-                    ),
-                  ],
-                ),
+                // QR Code Display Screen (for showing QR on poster)
+                QRCodeSection(caseId: alert.id),
               ],
             ),
 
