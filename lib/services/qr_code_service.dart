@@ -14,13 +14,13 @@ class QRCodeService {
     String? baseUrl,
   }) {
     // Create a deep link or API endpoint URL
-    final url = baseUrl ?? 'https://safereturns.app';
+    final url = baseUrl ?? 'myreturnapp://items';
     final qrData = {
       'type': 'missing_person',
       'case_id': caseId,
       'name': name,
       'age': age,
-      'url': '$url/case/$caseId',
+      'url': '$url/$caseId',
       'timestamp': DateTime.now().toIso8601String(),
     };
 
@@ -32,8 +32,8 @@ class QRCodeService {
   ///
   /// Most common approach - QR contains a URL
   String generateCaseURL({required String caseId, String? baseUrl}) {
-    final url = baseUrl ?? 'https://safereturn.app';
-    return '$url/case/$caseId';
+    final url = baseUrl ?? 'myreturnapp://items';
+    return '$url/$caseId';
   }
 
   /// Widget to display QR Code

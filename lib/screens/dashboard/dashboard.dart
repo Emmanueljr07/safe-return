@@ -7,8 +7,8 @@ import 'package:karu/screens/dashboard/widgets/floating_action_btn.dart';
 import 'package:karu/screens/dashboard/widgets/map_section.dart';
 import 'package:karu/screens/dashboard/widgets/section_header.dart';
 import 'package:karu/screens/dashboard/widgets/navbar_item.dart';
-import 'package:karu/screens/report_missing/report_missing_page.dart';
 import 'package:karu/provider/user_alerts.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -46,7 +46,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   void initState() {
     super.initState();
 
-    _fetchAlertsFuture = ref.read(userAlertsProvider.notifier).fetchAlerts();
+    // _fetchAlertsFuture = ref.read(userAlertsProvider.notifier).fetchAlerts();
   }
 
   @override
@@ -99,12 +99,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             right: 20,
             child: buildFloatingActionButton(() {
               // Handle FAB tap
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ReportMissingPage(),
-                ),
-              );
+              context.go('/report_missing');
             }),
           ),
         ],

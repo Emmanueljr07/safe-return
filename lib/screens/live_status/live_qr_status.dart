@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:karu/models/alert_item.dart';
+import 'package:karu/data/alerts_list.dart';
 
-class LiveQrStatus extends StatelessWidget {
-  const LiveQrStatus({super.key});
+class LiveQrStatus extends StatefulWidget {
+  const LiveQrStatus({super.key, required this.alertId});
+
+  final String alertId;
+
+  @override
+  State<LiveQrStatus> createState() => _LiveQrStatusState();
+}
+
+class _LiveQrStatusState extends State<LiveQrStatus> {
+  // Get alert details based on alertId (mocked for this example)
+  AlertItem getAlertDetails(String id) {
+    return alerts.firstWhere((alert) => alert.id == id);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    final alertDetails = getAlertDetails(widget.alertId);
+    debugPrint('Loaded alert details for: ${alertDetails.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Received alert ID: $widget.alertId');
+
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final isSmallScreen = screenWidth < 360;
