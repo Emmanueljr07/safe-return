@@ -6,7 +6,6 @@ import 'package:karu/screens/dashboard/widgets/alert_card.dart';
 import 'package:karu/screens/dashboard/widgets/floating_action_btn.dart';
 import 'package:karu/screens/dashboard/widgets/map_section.dart';
 import 'package:karu/screens/dashboard/widgets/section_header.dart';
-import 'package:karu/screens/dashboard/widgets/navbar_item.dart';
 import 'package:karu/provider/user_alerts.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,29 +17,7 @@ class DashboardPage extends ConsumerStatefulWidget {
 }
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
-  int _selectedIndex = 0;
   late Future<void> _fetchAlertsFuture;
-
-  // final List<AlertItem> _alerts = [
-  //   AlertItem(
-  //     type: AlertType.missing,
-  //     name: 'Sarah J.',
-  //     age: 8,
-  //     duration: '2 hours',
-  //     description:
-  //         'Last seen wearing a yellow raincoat near Central Park entrance.',
-  //     imagePlaceholder: Colors.orange.shade100,
-  //   ),
-  //   AlertItem(
-  //     type: AlertType.silverAlert,
-  //     name: 'John Doe',
-  //     age: 72,
-  //     duration: '5 hours',
-  //     description:
-  //         'Confusion/Dementia. Last seen near Downtown Library wearing a plaid shirt.',
-  //     imagePlaceholder: Colors.grey.shade800,
-  //   ),
-  // ];
 
   @override
   void initState() {
@@ -104,7 +81,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -194,55 +170,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             );
         }
       },
-    );
-  }
-
-  Widget _buildBottomNavigationBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              navItem(
-                icon: Icons.home,
-                label: 'Home',
-                isSelected: _selectedIndex == 0,
-                onTap: () => setState(() => _selectedIndex = 0),
-              ),
-              navItem(
-                icon: Icons.warning_amber,
-                label: 'Alerts',
-                isSelected: _selectedIndex == 1,
-                onTap: () => setState(() => _selectedIndex = 1),
-              ),
-              navItem(
-                icon: Icons.person_outline,
-                label: 'Profile',
-                isSelected: _selectedIndex == 2,
-                onTap: () => setState(() => _selectedIndex = 2),
-              ),
-              navItem(
-                icon: Icons.settings_outlined,
-                label: 'Settings',
-                isSelected: _selectedIndex == 3,
-                onTap: () => setState(() => _selectedIndex = 3),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
