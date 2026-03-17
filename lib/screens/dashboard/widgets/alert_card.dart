@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:karu/models/alert_item.dart';
-import 'dart:io';
 
 // import 'package:karu/screens/missing_items/missing_item_profile.dart';
 import 'package:karu/screens/smart_share/smart_share_card.dart';
@@ -23,7 +22,7 @@ Widget buildAlertCard(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withAlpha(26),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -42,7 +41,8 @@ Widget buildAlertCard(
                 ),
                 child: AspectRatio(
                   aspectRatio: 1.5,
-                  child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
+                  child: Image.asset(alert.imageUrl, fit: BoxFit.cover),
+                  // child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
                 ),
               ),
               // Positioned(

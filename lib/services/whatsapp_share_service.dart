@@ -21,6 +21,7 @@ class WhatsAppShareService {
   }) async {
     try {
       // Capture the poster widget as image
+      // ignore: unnecessary_nullable_for_final_variable_declarations
       final Uint8List? imageBytes = await screenshotController
           .captureFromWidget(
             posterWidget,

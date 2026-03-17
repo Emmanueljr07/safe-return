@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class CaseInfoCard extends StatelessWidget {
@@ -43,7 +41,8 @@ class CaseInfoCard extends StatelessWidget {
               width: screenHeight * 0.15,
               height: screenHeight * 0.15,
               color: Colors.grey.shade300,
-              child: Image.file(File(imageUrl), fit: BoxFit.cover),
+              child: Image.asset(imageUrl, fit: BoxFit.cover),
+              // child: Image.file(File(imageUrl), fit: BoxFit.cover),
             ),
           ),
 

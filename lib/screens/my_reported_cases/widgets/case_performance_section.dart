@@ -63,7 +63,7 @@ class CasePerformanceSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlpha(20),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

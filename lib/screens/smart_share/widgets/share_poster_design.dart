@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:karu/models/alert_item.dart';
 import 'package:karu/screens/smart_share/widgets/qr_code_section.dart';
@@ -63,7 +62,8 @@ class SharePosterDesign extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
+                  child: Image.asset(alert.imageUrl, fit: BoxFit.cover),
+                  // child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
                 ),
                 const SizedBox(width: 10),
 

@@ -204,7 +204,7 @@ class _LiveQrStatusState extends State<LiveQrStatus> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.blue.withOpacity(0.3),
+                color: Colors.blue.withAlpha(23),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -461,7 +461,7 @@ class _LiveQrStatusState extends State<LiveQrStatus> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withOpacity(0.7),
+                          Colors.black.withAlpha(90),
                         ],
                       ),
                     ),
@@ -489,7 +489,7 @@ class _LiveQrStatusState extends State<LiveQrStatus> {
                               Text(
                                 'San Francisco, CA • Yesterday 4:30 PM',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
+                                  color: Colors.white70,
                                   fontSize: 12,
                                 ),
                               ),
@@ -500,7 +500,7 @@ class _LiveQrStatusState extends State<LiveQrStatus> {
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withAlpha(40),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(

@@ -488,10 +488,7 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.1),
-                      ],
+                      colors: [Colors.transparent, Colors.black.withAlpha(10)],
                     ),
                   ),
                 ),
@@ -622,7 +619,7 @@ class _MissingPersonProfilePageState extends State<MissingPersonProfilePage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha(80),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),

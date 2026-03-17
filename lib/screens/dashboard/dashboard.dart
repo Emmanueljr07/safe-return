@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:karu/data/alerts_list.dart';
-import 'package:karu/models/alert_item.dart';
+// import 'package:karu/models/alert_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:karu/screens/dashboard/widgets/alert_card.dart';
+// import 'package:karu/screens/dashboard/widgets/alert_card.dart';
+import 'package:karu/screens/dashboard/widgets/build_case_card.dart';
 import 'package:karu/screens/dashboard/widgets/floating_action_btn.dart';
-import 'package:karu/screens/dashboard/widgets/map_section.dart';
-import 'package:karu/screens/dashboard/widgets/section_header.dart';
-import 'package:karu/provider/user_alerts.dart';
+// import 'package:karu/screens/dashboard/widgets/map_section.dart';
+// import 'package:karu/screens/dashboard/widgets/section_header.dart';
+// import 'package:karu/provider/user_alerts.dart';
 import 'package:go_router/go_router.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
@@ -17,70 +18,65 @@ class DashboardPage extends ConsumerStatefulWidget {
 }
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
-  late Future<void> _fetchAlertsFuture;
+  // late Future<void> _fetchAlertsFuture;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
     // _fetchAlertsFuture = ref.read(userAlertsProvider.notifier).fetchAlerts();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     final isSmallScreen = screenWidth < 360;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: _buildAppBar(),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: EdgeInsets.only(
-              bottom: 80 + MediaQuery.of(context).padding.bottom,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Map Section
-                buildMapSection(screenHeight),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Map Section
+            // buildMapSection(screenHeight),
 
-                const SizedBox(height: 24),
+            // Search Bar
+            _buildSearchBar(isSmallScreen),
 
-                // Active Alerts Section
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSmallScreen ? 16 : 20,
-                  ),
-                  child: Column(
-                    children: [
-                      buildSectionHeader(),
-                      const SizedBox(height: 16),
-                      // _alertsFutureBuilder(isSmallScreen),
-                      // ..._buildAlertCards(userAlerts, isSmallScreen),
-                      ..._buildAlertCards(alerts, isSmallScreen),
-                    ],
-                  ),
-                ),
+            // Cases Grid
+            Expanded(child: _buildCasesGrid(screenWidth, isSmallScreen)),
 
-                const SizedBox(height: 24),
-              ],
-            ),
-          ),
-
-          // Floating Action Button
-          Positioned(
-            bottom: 50 + MediaQuery.of(context).padding.bottom,
-            right: 20,
-            child: buildFloatingActionButton(() {
-              // Handle FAB tap
-              context.go('/report_missing');
-            }),
-          ),
-        ],
+            // Active Alerts Section
+            // Padding(
+            //   padding: EdgeInsets.symmetric(
+            //     horizontal: isSmallScreen ? 16 : 20,
+            //   ),
+            //   child: Column(
+            //     children: [
+            //       buildSectionHeader(),
+            //       const SizedBox(height: 16),
+            //       // _alertsFutureBuilder(isSmallScreen),
+            //       // ..._buildAlertCards(userAlerts, isSmallScreen),
+            //       ..._buildAlertCards(alerts, isSmallScreen),
+            //     ],
+            //   ),
+            // ),
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
+      floatingActionButton: buildFloatingActionButton(() {
+        // Handle FAB tap
+        context.go('/report_missing');
+      }),
     );
   }
 
@@ -131,44 +127,101 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     );
   }
 
-  List<Widget> _buildAlertCards(List<AlertItem> alerts, bool isSmallScreen) {
-    return alerts.map((alert) {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: buildAlertCard(alert, isSmallScreen, context),
-      );
-    }).toList();
+  Widget _buildSearchBar(bool isSmallScreen) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: isSmallScreen ? 16 : 20,
+        vertical: 8,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(20),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: 'Search by name or location',
+            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 15),
+            prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _alertsFutureBuilder(bool isSmallScreen) {
-    return FutureBuilder(
-      future: _fetchAlertsFuture,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return const Center(child: CircularProgressIndicator());
-          case ConnectionState.done:
-            final userAlerts = ref.watch(userAlertsProvider);
-            if (userAlerts.isEmpty) {
-              return const Center(
-                child: Text(
-                  'No active alerts nearby.',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              );
-            }
-            return Column(
-              children: _buildAlertCards(userAlerts, isSmallScreen),
-            );
-          // return _buildAlertsList(userAlerts);
-          default:
-            return const Center(
-              child: Text(
-                'Failed to load alerts.',
-                style: TextStyle(fontSize: 16, color: Colors.red),
-              ),
-            );
-        }
+  // List<Widget> _buildAlertCards(List<AlertItem> alerts, bool isSmallScreen) {
+  //   return alerts.map((alert) {
+  //     return Padding(
+  //       padding: const EdgeInsets.only(bottom: 16),
+  //       child: buildAlertCard(alert, isSmallScreen, context),
+  //     );
+  //   }).toList();
+  // }
+
+  // Widget _alertsFutureBuilder(bool isSmallScreen) {
+  //   return FutureBuilder(
+  //     future: _fetchAlertsFuture,
+  //     builder: (context, snapshot) {
+  //       switch (snapshot.connectionState) {
+  //         case ConnectionState.waiting:
+  //           return const Center(child: CircularProgressIndicator());
+  //         case ConnectionState.done:
+  //           final userAlerts = ref.watch(userAlertsProvider);
+  //           if (userAlerts.isEmpty) {
+  //             return const Center(
+  //               child: Text(
+  //                 'No active alerts nearby.',
+  //                 style: TextStyle(fontSize: 16, color: Colors.grey),
+  //               ),
+  //             );
+  //           }
+  //           return Column(
+  //             children: _buildAlertCards(userAlerts, isSmallScreen),
+  //           );
+  //         // return _buildAlertsList(userAlerts);
+  //         default:
+  //           return const Center(
+  //             child: Text(
+  //               'Failed to load alerts.',
+  //               style: TextStyle(fontSize: 16, color: Colors.red),
+  //             ),
+  //           );
+  //       }
+  //     },
+  //   );
+  // }
+
+  Widget _buildCasesGrid(double screenWidth, bool isSmallScreen) {
+    // Calculate number of columns based on screen width
+    int crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
+
+    return GridView.builder(
+      padding: EdgeInsets.symmetric(
+        horizontal: isSmallScreen ? 16 : 20,
+        vertical: 8,
+      ),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: isSmallScreen ? 12 : 16,
+        mainAxisSpacing: isSmallScreen ? 12 : 16,
+        childAspectRatio: 0.7,
+      ),
+      itemCount: alerts.length,
+      itemBuilder: (context, index) {
+        return buildCaseCard(alerts[index], context);
       },
     );
   }

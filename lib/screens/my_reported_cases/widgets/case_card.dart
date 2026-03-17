@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karu/models/alert_item.dart';
 import 'package:karu/screens/my_reported_cases/manage_case.dart';
-import 'dart:io';
 
 Widget buildCaseCard(
   AlertItem alert,
@@ -42,7 +41,8 @@ Widget buildCaseCard(
                 ),
                 child: AspectRatio(
                   aspectRatio: 1.5,
-                  child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
+                  child: Image.asset(alert.imageUrl, fit: BoxFit.cover),
+                  // child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
                 ),
               ),
               // Positioned(

@@ -112,7 +112,7 @@ class _AddPhotoSectionState extends State<AddPhotoSection> {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withAlpha(28),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

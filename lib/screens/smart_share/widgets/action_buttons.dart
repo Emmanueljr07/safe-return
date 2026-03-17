@@ -49,7 +49,7 @@ class ActionButtons extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: iconColor.withOpacity(0.2), width: 1),
+        border: Border.all(color: iconColor.withAlpha(25), width: 1),
       ),
       child: Material(
         color: Colors.transparent,

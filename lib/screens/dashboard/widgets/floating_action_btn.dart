@@ -9,7 +9,7 @@ Widget buildFloatingActionButton(void Function() onTap) {
       shape: BoxShape.circle,
       boxShadow: [
         BoxShadow(
-          color: Colors.red.shade600.withOpacity(0.4),
+          color: Colors.red.shade600.withAlpha(40),
           blurRadius: 12,
           offset: const Offset(0, 6),
         ),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:karu/models/alert_item.dart';
 import 'package:karu/screens/smart_share/widgets/qr_code_section.dart';
@@ -145,7 +144,8 @@ class BuildPosterCard extends StatelessWidget {
           width: double.infinity,
           height: screenHeight * 0.35,
           color: Colors.orange.shade100,
-          child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
+          child: Image.asset(alert.imageUrl, fit: BoxFit.cover),
+          // child: Image.file(File(alert.imageUrl), fit: BoxFit.cover),
         ),
 
         // Urgent badge
@@ -155,7 +155,7 @@ class BuildPosterCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
+              color: Colors.black.withAlpha(170),
               borderRadius: BorderRadius.circular(20),
             ),
             child: const Text(

@@ -10,7 +10,7 @@ Widget buildMapSection(double screenHeight) {
       borderRadius: BorderRadius.circular(16),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.08),
+          color: Colors.black.withAlpha(28),
           blurRadius: 10,
           offset: const Offset(0, 4),
         ),
@@ -35,11 +35,8 @@ Widget buildMapSection(double screenHeight) {
               height: 200,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.blue.withOpacity(0.5),
-                  width: 3,
-                ),
-                color: Colors.blue.withOpacity(0.1),
+                border: Border.all(color: Colors.blue.withAlpha(25), width: 3),
+                color: Colors.blue.withAlpha(10),
               ),
             ),
           ),
@@ -55,7 +52,7 @@ Widget buildMapSection(double screenHeight) {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(10),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -100,11 +97,11 @@ Widget buildMapSection(double screenHeight) {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
+                color: Colors.white.withAlpha(29),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(10),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -138,7 +135,7 @@ Widget _buildMapControl(IconData icon) {
       borderRadius: BorderRadius.circular(10),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.black.withAlpha(10),
           blurRadius: 8,
           offset: const Offset(0, 2),
         ),
