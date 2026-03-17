@@ -78,15 +78,13 @@ class _ReportMissingPageState extends ConsumerState<ReportMissingPage> {
             );
       }
 
-      // Simulate network call delay
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          Navigator.pop(context); // Dismiss loading indicator
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Alert published successfully!')),
-          );
-        }
-      });
+      if (mounted) {
+        Navigator.pop(context); // Dismiss loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Alert published successfully!')),
+        );
+      }
+
       if (mounted) {
         Navigator.push(
           context,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:app_links/app_links.dart';
+// import 'package:app_links/app_links.dart';
 import 'dart:async';
 import 'package:karu/routing/go_routing.dart';
 import 'package:karu/services/deeplinks_config.dart';
@@ -28,12 +28,12 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  final _appLinks = AppLinks();
+  // final _appLinks = AppLinks();
   final DeepLinksConfig deepLinksConfig = DeepLinksConfig();
   @override
   void initState() {
     super.initState();
-    deepLinksConfig.initDeepLinks(_appLinks);
+    // deepLinksConfig.initDeepLinks(_appLinks);
   }
 
   @override

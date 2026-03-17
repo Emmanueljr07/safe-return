@@ -29,8 +29,17 @@ class UserAlertsNotifier extends StateNotifier<List<AlertItem>> {
         imageUrl,
       ).copy('${appDir.path}/$imageFilename');
 
+      // upload Image to supabase
+      final url = await uploadImageAndGetUrl(copiedimageUrl);
+
+      if (url == null) {
+        debugPrint("Something went wrong with image");
+        throw Exception("Something went wrong");
+      }
+
       final alert = AlertItem(
-        imageUrl: copiedimageUrl.path,
+        // imageUrl: copiedimageUrl.path,
+        imageUrl: url,
         name: name,
         age: age,
         height: height,
@@ -75,6 +84,33 @@ class UserAlertsNotifier extends StateNotifier<List<AlertItem>> {
       debugPrint('Error fetching alerts: $e');
       throw Exception('Failed to fetch alerts: $e');
     }
+  }
+
+  // Upload and Get ImageUrl
+  Future<String?> uploadImageAndGetUrl(File file) async {
+    // 1. Generate a unique file name
+    final String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final String filePath = 'uploads/$fileName'; // folder/filename in bucket
+
+    // 2. Upload to Supabase Storage
+    await _supabase.storage
+        .from('images') // your bucket name
+        .upload(
+          filePath,
+          file,
+          fileOptions: const FileOptions(
+            contentType: 'image/jpeg',
+            upsert: false, // set true to overwrite existing files
+          ),
+        );
+
+    // 4. Get the public URL
+    final String publicUrl = _supabase.storage
+        .from('images')
+        .getPublicUrl(filePath);
+
+    debugPrint('Image URL: $publicUrl');
+    return publicUrl;
   }
 }
 

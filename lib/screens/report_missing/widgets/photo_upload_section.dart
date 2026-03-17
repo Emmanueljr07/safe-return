@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:karu/services/detection/face_detection.dart';
 
 class AddPhotoSection extends StatefulWidget {
   final void Function(String imagePath) onImageSelected;
@@ -33,10 +34,22 @@ class _AddPhotoSectionState extends State<AddPhotoSection> {
     // Implement image picker logic here
     try {
       final XFile? pickedFile = await _picker.pickImage(source: source);
+      if (pickedFile == null) return;
+
+      final File file = File(pickedFile.path);
+
+      // ✅ Check for face BEFORE uploading
+      final bool hasFace = await isFaceImage(file);
+
+      if (!hasFace) {
+        debugPrint('No face detected. Upload cancelled.');
+        return;
+      }
+
       setState(() {
         _setImageFileListFromFile(pickedFile);
         widget.onImageSelected(
-          pickedFile?.path ?? '',
+          pickedFile.path,
         ); // Send image path to parent widget
       });
     } catch (e) {
